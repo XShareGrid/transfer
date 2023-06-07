@@ -37,6 +37,9 @@ func main() {
 		if r.Cells[0].String() == "" {
 			break
 		}
+		if r.Cells[2].String() == "待定" {
+			continue
+		}
 		confName := r.Cells[0].String() + "_" + r.Cells[1].String()
 		p := strings.ToLower(r.Cells[4].String())
 		proto := PROTO_HTTP
@@ -69,6 +72,14 @@ func writeConfig(confName string, proto Protocol, src string, dstPort string) er
 	case PROTO_HTTP:
 		cfg = fmt.Sprintf(tpl, dstPort, confName, "proxy_pass http://", src)
 	case PROTO_GRPC:
+		tpl = `server {
+    listen %s http2;                                  # 代理端口
+    server_name %s;                      # 代理服务名
+    location / {
+        %s%s;     # 目标地址
+    }
+}
+`
 		cfg = fmt.Sprintf(tpl, dstPort, confName, "grpc_pass grpc://", src)
 	}
 

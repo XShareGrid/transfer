@@ -1,4 +1,4 @@
-module github.com/XShareGrid/transfer
+module github.com/XShareGrid/transfer/gen
 
 go 1.16
 

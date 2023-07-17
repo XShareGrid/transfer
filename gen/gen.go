@@ -78,6 +78,7 @@ func writeConfig(confName string, proto Protocol, src string, dstPort string) er
     server_name %s;                      # 代理服务名
     location / {
         %s%s;     # 目标地址
+		client_max_body_size 200m;
     }
 }
 `
